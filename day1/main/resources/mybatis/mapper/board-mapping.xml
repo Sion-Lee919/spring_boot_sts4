@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boardmapper.BoardMapper">
+	<insert id="insertBoard" parameterType="boarddto">
+		insert into board values ((select max(seq)+1 from board), #{title}, #{contents}, #{writer}, #{pw}, 0, sysdate, #{file1})
+	</insert>
+
+	<select id="pagingList" resultType="boarddto" parameterType="int">
+		select *
+		from(select rownum r, imsi.*
+		from(select * from board order by writingtime desc)	imsi
+		)
+		where r between 
+		<foreach collection="array" item="num" separator="and">
+			#{num}
+		</foreach>
+	</select>
+	
+	<select id="totalCount" resultType="int">
+		select count(*) from board
+	</select>
+	
+	<select id="boarddetail" resultType="boarddto" parameterType="int">
+		select * from board where seq=#{int}
+	</select>
+	
+	<update id="count" parameterType="int">
+		update board set viewcount=viewcount+1 where seq=#{int} 
+	</update>
+	
+	<delete id="del" parameterType="int">
+		delete from board where seq=#{int}
+	</delete>
+	
+	<update id="update" parameterType="boarddto">
+		update board set title=#{title}, contents=#{contents} where seq=#{seq}
+	</update>
+	
+</mapper>
