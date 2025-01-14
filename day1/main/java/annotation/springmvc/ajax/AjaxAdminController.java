@@ -48,12 +48,7 @@ public class AjaxAdminController {
 				    }
 				}
 				  		pwpw="{\"해당아이디없음\"}";
-				    	return pwpw;
-
-				
-				
-				
-				
+				    	return pwpw;		
 			}
 			/*String getpw( ...... ){ 
 			list 내부에 id 존재하는지 판단하여 
